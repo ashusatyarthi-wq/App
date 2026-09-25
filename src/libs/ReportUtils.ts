@@ -11845,6 +11845,14 @@ function getNonHeldAndFullAmount(
         unheldTotal = iouReport?.unheldTotal ?? unheldReimbursableTotal + (iouReport?.unheldNonReimbursableTotal ?? 0);
     }
 
+    if (hasHeldExpenses(allReportTransactions) && (unheldTotal === 0 || unheldTotal === total) && allReportTransactions.length > 0) {
+        const unheldTransactions = allReportTransactions.filter((transaction) => !isOnHoldTransactionUtils(transaction));
+        const derivedUnheldTotal = unheldTransactions.reduce((acc, transaction) => acc + (transaction.amount ?? 0), 0);
+        if (derivedUnheldTotal !== 0) {
+            unheldTotal = derivedUnheldTotal;
+        }
+    }
+
     const adjustedUnheldTotal = unheldTotal * coefficient;
     const adjustedTotal = total * coefficient;
 
