@@ -374,6 +374,17 @@ describe('ReimbursementAccountPage pending USD redirect', () => {
         // The redirect fires from an effect, which runs even on the renders that return the not-found view, and the
         // validation step has no authorization guard of its own. So these three are the difference between the
         // not-authorized screen and the micro-deposit form.
+        it('does not redirect when max validation attempts have been reached', async () => {
+            // Given a pending USD account that has reached max validation attempts
+            await seedOnyx({...PENDING_ACCOUNT, maxAttemptsReached: true});
+
+            // When the page is opened
+            await renderPage();
+
+            // Then it does not redirect and displays the entry point with options
+            expectNoPendingRedirect();
+        });
+
         it('does not redirect a member who cannot manage the workspace bank account', async () => {
             // Given a matching pending account cached for a workspace the user only has member access to
             await seedOnyx(PENDING_ACCOUNT, MEMBER_POLICY);
