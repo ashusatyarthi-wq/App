@@ -56,6 +56,7 @@ function SearchResultsProvider({children}: SearchResultsProviderProps) {
         const searchInfo: SearchResultsInfo = {
             ...(snapshotSearchResults?.search ?? defaultSearchInfo),
             count: liveData.metadata.count,
+            reportCount: liveData.metadata.reportCount,
             total: liveData.metadata.total,
             currency: liveData.metadata.currency,
         };
