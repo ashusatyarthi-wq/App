@@ -348,7 +348,7 @@ function SearchSelectionFooter({searchResults}: SearchSelectionFooterProps) {
         !hasConversionFailed &&
         hasCustomFooterCurrency &&
         (shouldUseClientTotal ? hasConvertibleSelection && !areAllSelectedConverted : !isSearchTotalFresh || ((hasExcludedExpenses || hasExcludedReports) && !areAllExcludedConverted));
-    const shouldShowFooter = (!areAllMatchingItemsSelected && selectedTransactionsKeys.length > 0) || (shouldAllowFooterTotals && !!metadata?.count);
+    const shouldShowFooter = (!areAllMatchingItemsSelected && selectedTransactionsKeys.length > 0) || (shouldAllowFooterTotals && (!!metadata?.count || (isOffline && areAllMatchingItemsSelected)));
 
     // Fetch converted figures whenever a custom currency is chosen and no request has covered what the footer needs.
     // Each request stamps the source figures it converts, so the requested checks keep this to one request per
