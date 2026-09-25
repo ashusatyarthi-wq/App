@@ -73,9 +73,9 @@ function VerifyIdentity() {
             </View>
             <FullPageOfflineBlockingView>
                 <ScrollView contentContainerStyle={styles.flex1}>
-                    {walletOnfidoData?.hasAcceptedPrivacyPolicy ? (
+                    {walletOnfidoData?.hasAcceptedPrivacyPolicy && !walletOnfidoData?.isLoading && !walletOnfidoData?.errors && !!walletOnfidoData?.sdkToken ? (
                         <Onfido
-                            sdkToken={walletOnfidoData?.sdkToken ?? ''}
+                            sdkToken={walletOnfidoData.sdkToken}
                             onUserExit={goBack}
                             onError={handleOnfidoError}
                             onSuccess={handleOnfidoSuccess}
