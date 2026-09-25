@@ -157,7 +157,7 @@ function USDVerifiedBankAccountFlowPage({route}: USDVerifiedBankAccountFlowPageP
         // When the bank account is pending validation it has already been submitted, so stepping back through the
         // setup pages doesn't make sense. Leave the flow entirely rather than popping to ReimbursementAccountPage:
         // that page redirects a pending account straight back here, so returning to it would trap the user in a loop.
-        if (currentEntry?.pageName === PAGE_NAMES.VALIDATION && reimbursementAccount?.achData?.state === CONST.BANK_ACCOUNT.STATE.PENDING) {
+        if (currentEntry?.pageName === PAGE_NAMES.VALIDATION && reimbursementAccount?.achData?.state === CONST.BANK_ACCOUNT.STATE.PENDING && !reimbursementAccount?.maxAttemptsReached) {
             if (backTo) {
                 Navigation.goBack(backTo);
             } else {
@@ -179,7 +179,7 @@ function USDVerifiedBankAccountFlowPage({route}: USDVerifiedBankAccountFlowPageP
         }
         const prevPage = pages.at(prevIndex);
         Navigation.goBack(ROUTES.BANK_ACCOUNT_USD_SETUP.getRoute({policyID, page: prevPage?.pageName, subPage: getSubPageForNavigation(prevPage, prevPage?.lastSubPage), backTo}));
-    }, [backTo, currentEntry?.pageName, currentPageIndex, policyID, reimbursementAccount?.achData?.state, shouldSkipVerifyIdentity, shouldSkipKYBDocs, getSubPageForNavigation]);
+    }, [backTo, currentEntry?.pageName, currentPageIndex, policyID, reimbursementAccount?.achData?.state, reimbursementAccount?.maxAttemptsReached, shouldSkipVerifyIdentity, shouldSkipKYBDocs, getSubPageForNavigation]);
 
     return (
         <View style={[styles.flex1, styles.appBG]}>
