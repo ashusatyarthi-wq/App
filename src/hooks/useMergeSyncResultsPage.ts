@@ -14,6 +14,7 @@ import {isModalActiveSelector} from '@selectors/Modal';
 import {useEffect, useEffectEvent, useRef} from 'react';
 
 import useOnyx from './useOnyx';
+import useScreenBoundDynamicRoute from './useScreenBoundDynamicRoute';
 
 function getSyncResultsRoutePath(connectionName: ConnectionName | undefined) {
     if (CONST.POLICY.CONNECTIONS.HR_CONNECTION_NAMES.some((hrConnectionName) => hrConnectionName === connectionName)) {
@@ -35,6 +36,7 @@ function getSyncResultsRoutePath(connectionName: ConnectionName | undefined) {
  */
 function useMergeSyncResultsPage(policyID: string, connectionName?: HRConnectionName | RecruitingConnectionName) {
     const isFocused = useIsFocused();
+    const buildRoute = useScreenBoundDynamicRoute();
     const [connectionSyncProgress] = useOnyx(`${ONYXKEYS.COLLECTION.POLICY_CONNECTION_SYNC_PROGRESS}${policyID}`);
     const pendingSyncResultRef = useRef<Pick<PolicyConnectionSyncProgress, 'connectionName' | 'result'> | null>(null);
 
@@ -54,7 +56,7 @@ function useMergeSyncResultsPage(policyID: string, connectionName?: HRConnection
 
         // The result payload stays in Onyx; the screen re-reads it from the `policyID` it inherits
         // from the workspace route, so nothing rich has to be serialized into navigation params.
-        Navigation.navigate(createDynamicRoute(routePath));
+        Navigation.navigate(buildRoute(routePath));
     });
 
     useEffect(() => {
@@ -77,7 +79,7 @@ function useMergeSyncResultsPage(policyID: string, connectionName?: HRConnection
         }
 
         const pendingSyncResult = pendingSyncResultRef.current;
-        if (!pendingSyncResult || isAnyModalActive) {
+        if (!pendingSyncResult || isAnyModalActive || !isFocused) {
             return;
         }
 
