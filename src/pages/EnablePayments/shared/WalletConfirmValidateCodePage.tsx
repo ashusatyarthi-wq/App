@@ -63,7 +63,7 @@ function WalletConfirmValidateCodePage() {
         // code, SSN, or a generic failure) keeps the screen open to retry.
         if (wasLoading.current && !hasErrors) {
             wasLoading.current = false;
-            Navigation.navigate(ROUTES.SETTINGS_ENABLE_PAYMENTS.getRoute({page: CONST.ENABLE_PAYMENTS.PAGE_NAMES.VERIFY_IDENTITY}));
+            Navigation.goBack();
         }
         wasLoading.current = false;
     }, [formData?.isLoading, hasErrors]);
