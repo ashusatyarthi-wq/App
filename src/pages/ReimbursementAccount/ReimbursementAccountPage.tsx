@@ -259,6 +259,7 @@ function ReimbursementAccountPage({route, policy, isLoadingPolicy}: Reimbursemen
     const shouldRedirectToPendingValidation =
         policyCurrency === CONST.CURRENCY.USD &&
         achData?.state === CONST.BANK_ACCOUNT.STATE.PENDING &&
+        !reimbursementAccount?.maxAttemptsReached &&
         !!hasLoadedData &&
         !isChangingBankAccount &&
         !!policyIDParam &&
