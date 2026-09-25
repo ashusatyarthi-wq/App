@@ -6168,6 +6168,11 @@ async function completeOnboarding({
         // pop before the optimistic data unmounts the modal.
         resetOnboardingStackToRoot();
 
+        if (isOfflineNetwork()) {
+            // eslint-disable-next-line rulesdir/no-multiple-api-calls
+            return API.write(WRITE_COMMANDS.COMPLETE_GUIDED_SETUP, parameters, {optimisticData, successData, failureData});
+        }
+
         // We need to access the nvp_onboardingRHPVariant directly from the response to redirect the user to the correct page
         // eslint-disable-next-line rulesdir/no-api-side-effects-method
         return API.makeRequestWithSideEffects(SIDE_EFFECT_REQUEST_COMMANDS.COMPLETE_GUIDED_SETUP, parameters, {optimisticData, successData, failureData});
