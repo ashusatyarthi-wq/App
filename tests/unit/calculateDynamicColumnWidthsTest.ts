@@ -217,6 +217,14 @@ describe('calculateDynamicColumnWidths', () => {
 
             expect(result).toEqual({widths: [180, 100], shouldScrollHorizontally: true});
         });
+
+        it('handles availableWidth clamped to 0 when all 39 columns are enabled (#102241)', () => {
+            const columns = Array.from({length: 39}, () => buildConstraints(200, 100));
+            const result = calculateDynamicColumnWidths(columns, 0);
+
+            expect(result.shouldScrollHorizontally).toBe(true);
+            expect(result.widths.every((w) => w >= 100)).toBe(true);
+        });
     });
 
     describe('rounding', () => {
