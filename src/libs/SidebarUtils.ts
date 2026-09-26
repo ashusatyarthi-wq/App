@@ -836,7 +836,7 @@ function getOptionData({
     result.statusNum = report.statusNum;
     // When the only message of a report is deleted lastVisibleActionCreated is not reset leading to wrongly
     // setting it Unread so we add additional condition here to avoid empty chat LHN from being bold.
-    result.isUnread = isUnread(report, oneTransactionThreadReport, isReportArchived, reportAttributes?.isEmpty) && !!report.lastActorAccountID;
+    result.isUnread = isUnread(report, oneTransactionThreadReport, isReportArchived, reportAttributes?.isEmpty);
     result.isUnreadWithMention = isUnreadWithMention(report);
     result.isPinned = report.isPinned;
     result.iouReportID = report.iouReportID;
@@ -989,7 +989,6 @@ function getIsUnreadReportForInboxTab(report: Report, isReportArchived: boolean,
     // deleted out of the Unread tab even though isUnread() can still be true (lastVisibleActionCreated isn't reset).
     return (
         isUnread(report, undefined, isReportArchived, derivedIsEmptyReport) &&
-        !!report.lastActorAccountID &&
         getReportNotificationPreference(report) !== CONST.REPORT.NOTIFICATION_PREFERENCE.MUTE
     );
 }
