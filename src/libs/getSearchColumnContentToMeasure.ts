@@ -240,7 +240,7 @@ function getTransactionColumnContentToMeasure(
         case CONST.SEARCH.TABLE_COLUMNS.REPORT_ID:
             return [{text: item.reportID === CONST.REPORT.UNREPORTED_REPORT_ID ? '' : item.reportID}];
         case CONST.SEARCH.TABLE_COLUMNS.BASE_62_REPORT_ID:
-            return [{text: item.reportID === CONST.REPORT.UNREPORTED_REPORT_ID ? '' : getBase62ReportID(Number(item.reportID))}];
+            return [{text: !item.reportID || item.reportID === CONST.REPORT.UNREPORTED_REPORT_ID || Number.isNaN(Number(item.reportID)) ? '' : getBase62ReportID(Number(item.reportID))}];
         case CONST.SEARCH.TABLE_COLUMNS.WITHDRAWAL_ID:
             return [{text: item.withdrawalID}];
         case CONST.SEARCH.TABLE_COLUMNS.SUBMITTER_USER_ID:
@@ -254,7 +254,7 @@ function getTransactionColumnContentToMeasure(
             // width of the fallback it actually shows rather than at nothing.
             return [{text: getPolicyName({report: item.report, unavailableTranslation: translate('workspace.common.unavailable')})}];
         case CONST.SEARCH.TABLE_COLUMNS.TAX_RATE:
-            return [{text: isTimeRequest(item) || isPerDiemRequest(item) ? '' : (getTaxName(item.policy, item) ?? item.taxValue ?? '')}];
+            return [{text: isTimeRequest(item) || isPerDiemRequest(item) ? '' : String(getTaxName(item.policy, item) ?? item.taxValue ?? '')}];
         case CONST.SEARCH.TABLE_COLUMNS.EXCHANGE_RATE:
             return [{text: getExchangeRate(item, item.report?.currency ?? item.policy?.outputCurrency, true)}];
         case CONST.SEARCH.TABLE_COLUMNS.CATEGORY_GL_CODE:
@@ -292,7 +292,7 @@ function getExpenseReportColumnContentToMeasure(column: SearchColumnType, item: 
         case CONST.SEARCH.TABLE_COLUMNS.REPORT_ID:
             return [{text: item.reportID === CONST.REPORT.UNREPORTED_REPORT_ID ? '' : item.reportID}];
         case CONST.SEARCH.TABLE_COLUMNS.BASE_62_REPORT_ID:
-            return [{text: item.reportID === CONST.REPORT.UNREPORTED_REPORT_ID ? '' : getBase62ReportID(Number(item.reportID))}];
+            return [{text: !item.reportID || item.reportID === CONST.REPORT.UNREPORTED_REPORT_ID || Number.isNaN(Number(item.reportID)) ? '' : getBase62ReportID(Number(item.reportID))}];
         case CONST.SEARCH.TABLE_COLUMNS.SUBMITTER_USER_ID:
             return [{text: item.submitterUserID}];
         case CONST.SEARCH.TABLE_COLUMNS.SUBMITTER_PAYROLL_ID:
