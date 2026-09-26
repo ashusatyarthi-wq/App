@@ -57,7 +57,7 @@ function createWidestTextMeasurer(): WidestTextMeasurer {
 
     return {
         add: (text, font = {}) => {
-            if (!text) {
+            if (typeof text !== 'string' || !text.trim()) {
                 return;
             }
 
