@@ -151,7 +151,7 @@ function useSearchColumnWidths({
     // A table showing enough fixed columns to overrun its own width leaves this at zero or less. That is the scrolling
     // case rather than a reason to stop: the columns are still measured, and each one is sized to its content so an
     // empty column stays narrow instead of claiming an equal share of a budget that does not exist.
-    const availableWidth = tableWidth - getSearchTableRowInsetWidth(columns.length) - fixedColumnsWidth;
+    const availableWidth = Math.max(0, tableWidth - getSearchTableRowInsetWidth(columns.length) - fixedColumnsWidth);
 
     const constraints: DynamicColumnConstraints[] = [];
     const contentWidths: number[] = [];
