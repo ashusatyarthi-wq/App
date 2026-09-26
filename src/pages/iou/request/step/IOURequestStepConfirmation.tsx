@@ -178,6 +178,7 @@ function IOURequestStepConfirmationContent({
     const isPerDiemRequest = requestType === CONST.IOU.REQUEST_TYPE.PER_DIEM;
     const isUnreported = transaction?.reportID === CONST.REPORT.UNREPORTED_REPORT_ID;
     const isCreatingTrackExpense = action === CONST.IOU.ACTION.CREATE && iouType === CONST.IOU.TYPE.TRACK;
+    const isEmbeddedInGlobalCreateStartPage = route.name === SCREENS.MONEY_REQUEST.CREATE && iouType === CONST.IOU.TYPE.CREATE;
 
     const selectedWorkspacePolicyID = getSelectedWorkspacePolicyID(initialTransaction, action);
     // A workspace with submissions (delayed submission) disabled has no autoReporting, so the new flow seeds the
@@ -480,7 +481,7 @@ function IOURequestStepConfirmationContent({
                     );
                 }
 
-                if (iouType !== CONST.IOU.TYPE.TRACK) {
+                if (iouType !== CONST.IOU.TYPE.TRACK && !isEmbeddedInGlobalCreateStartPage) {
                     navigation.setParams({iouType: CONST.IOU.TYPE.TRACK});
                 }
             } else {
@@ -589,7 +590,9 @@ function IOURequestStepConfirmationContent({
         const firstDefault = defaultParticipants.at(0);
         if (firstDefault?.isSelfDM) {
             setTransactionReport(transaction.transactionID, {reportID: CONST.REPORT.UNREPORTED_REPORT_ID}, true);
-            navigation.setParams({iouType: CONST.IOU.TYPE.TRACK});
+            if (!isEmbeddedInGlobalCreateStartPage) {
+                navigation.setParams({iouType: CONST.IOU.TYPE.TRACK});
+            }
         } else if (firstDefault?.reportID) {
             setTransactionReport(transaction.transactionID, {reportID: firstDefault.reportID}, true);
         }
