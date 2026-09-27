@@ -694,7 +694,7 @@ function PaymentMethodList({
                 item={item}
                 shouldShowDefaultBadge={shouldShowDefaultBadge(
                     filteredPaymentMethodsWithoutStrings,
-                    invoiceTransferBankAccountID ? invoiceTransferBankAccountID === item.methodID : item.methodID === userWallet?.walletLinkedAccountID,
+                    invoiceTransferBankAccountID !== undefined ? invoiceTransferBankAccountID === item.methodID : item.methodID === userWallet?.walletLinkedAccountID,
                     shouldHideDefaultBadge,
                 )}
                 listItemStyle={listItemStyle}
