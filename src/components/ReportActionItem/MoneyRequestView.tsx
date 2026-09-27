@@ -510,7 +510,9 @@ function MoneyRequestView({
         }) &&
         (!isPerDiemRequest || canSubmitPerDiemExpenseFromWorkspace(policy) || (isExpenseUnreported && !!perDiemOriginalPolicy));
 
-    const policyTagLists = getTagLists(policyTagList);
+    // For display purposes always use the expense's own policy tags (reportPolicyTags),
+    // not the viewer's overridden workspace tags (policyTagList).
+    const policyTagLists = getTagLists(reportPolicyTags ?? policyTagList);
     const policyHasEnabledTags = hasEnabledTags(policyTagLists);
 
     const category = transactionCategory ?? '';
