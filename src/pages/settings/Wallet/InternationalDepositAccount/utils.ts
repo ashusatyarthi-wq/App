@@ -144,10 +144,13 @@ function getValidationErrors(values: FormOnyxValues<typeof ONYXKEYS.FORMS.INTERN
         for (const rule of field.validationRules) {
             const regExpCheck = new RegExp(rule.regEx);
             if (!regExpCheck.test(values[fieldName])) {
+                const isIndianIFSC = values.bankCountry === 'IN' && (fieldName === INPUT_IDS.ROUTING_CODE || fieldName === 'routingCode');
                 // Corpay's strict SWIFT rule also requires a six-letter prefix, which its message may omit.
                 const errorMessage =
                     fieldName === INPUT_IDS.ADDITIONAL_DATA.CORPAY.SWIFT_BIC_CODE && rule.regEx === CONST.CORPAY_FIELDS.STRICT_SWIFT_BIC_REGEX
                         ? translate('addPersonalBankAccount.swiftBicFormatError')
+                        : isIndianIFSC
+                        ? translate('addPersonalBankAccount.ifscFormatError')
                         : rule.errorMessage;
                 addErrorMessage(errors, fieldName, errorMessage);
             }
