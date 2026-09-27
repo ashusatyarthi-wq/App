@@ -98,6 +98,12 @@ function useSearchPageSetup(queryJSON: Readonly<SearchQueryJSON> | undefined) {
             return;
         }
 
+        // If the snapshot now carries an error, this request failed.
+        // Remove hash from the requested set so the self-heal effect below can re-fire it.
+        if (hasErrorToClear && requestedHashesRef.current.has(hash)) {
+            requestedHashesRef.current.delete(hash);
+        }
+
         const shouldSkipWaitForWrites = hasPendingSearchWrite();
         requestedHashesRef.current.add(hash);
         // Claim this query's first page so Search does not request it again when it mounts behind the skeleton.
