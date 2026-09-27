@@ -2,12 +2,12 @@ import useShouldShowRequire2FAPage from '@hooks/useShouldShowRequire2FAPage';
 
 import KeyboardShortcut from '@libs/KeyboardShortcut';
 import Navigation from '@libs/Navigation/Navigation';
+import {startNewChat} from '@libs/actions/Report';
 
 import * as Modal from '@userActions/Modal';
 import * as Session from '@userActions/Session';
 
 import CONST from '@src/CONST';
-import ROUTES from '@src/ROUTES';
 
 import {useEffect} from 'react';
 
@@ -22,7 +22,7 @@ function NewChatHandler() {
                 if (Navigation.isOnboardingFlow() || shouldShowRequire2FAPage) {
                     return;
                 }
-                Session.callFunctionIfActionIsAllowed(() => Modal.close(() => Navigation.navigate(ROUTES.NEW)))();
+                Session.callFunctionIfActionIsAllowed(() => Modal.close(() => startNewChat()))();
             },
             shortcutConfig.descriptionKey,
             shortcutConfig.modifiers,
