@@ -71,7 +71,11 @@ function ReportsSplitNavigator({navigation, route}: PlatformStackScreenProps<Tab
         if (!shouldClearInitialReportActionsDefer) {
             return;
         }
-        navigation.setParams({shouldDeferInitialReportActions: undefined});
+        navigation.setParams({
+            shouldDeferInitialReportActions: undefined,
+            screen: undefined,
+            params: undefined,
+        });
     }, [navigation, shouldClearInitialReportActionsDefer]);
 
     const reportScreenInitialParams = {
