@@ -340,11 +340,14 @@ function Search({
             let secondFrameID: number | undefined;
             const frameID = requestAnimationFrame(() => {
                 if (!useDoubleFrame) {
-                    setShouldDeferHeavySearchWork(false);
+                    // Don't clear the defer flag here — the useEffect below will
+                    // clear it once isDataLoaded becomes true. Clearing prematurely
+                    // causes EmptySearchView to flash before results arrive.
                     return;
                 }
 
-                secondFrameID = requestAnimationFrame(() => setShouldDeferHeavySearchWork(false));
+                // Same: let the isDataLoaded path in the useEffect clear this flag.
+                secondFrameID = requestAnimationFrame(() => {});
             });
 
             return () => {
