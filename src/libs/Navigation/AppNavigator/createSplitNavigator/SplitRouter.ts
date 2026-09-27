@@ -180,6 +180,11 @@ function SplitRouter(options: SplitNavigatorRouterOptions) {
                 const stateAfterPop = stackRouter.getStateForAction(state, StackActions.pop(), configOptions) as StackNavigationState<ParamListBase>;
                 return stackRouter.getStateForAction(stateAfterPop, StackActions.pop(), configOptions);
             }
+            if (action.type === CONST.NAVIGATION.ACTION_TYPE.NAVIGATE && action.payload.name === state.routes.at(-1)?.name) {
+                const result = stackRouter.getStateForAction(state, action, configOptions);
+                return result ? stripSkipInitialSidebarParam(result) : state;
+            }
+
             const result = stackRouter.getStateForAction(state, action, configOptions);
             return result ? stripSkipInitialSidebarParam(result) : result;
         },
