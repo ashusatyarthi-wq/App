@@ -155,7 +155,7 @@ function DynamicWorkspaceViewTagsPage({route}: DynamicWorkspaceViewTagsProps) {
             acc.push({
                 keyForList: hasDependentTags ? `${tag.name}-${tag.rules?.parentTagsFilter ?? ''}` : tag.name,
                 value: tag.name,
-                name: hasDependentTags ? tag.name : getCleanedTagName(tag.name),
+                name: getCleanedTagName(tag.name),
                 enabled: tag.enabled,
                 disabled: isDisabled,
                 errors: tag.errors ?? undefined,
