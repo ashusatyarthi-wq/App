@@ -186,6 +186,7 @@ const translations = {
         agentThinking: 'Thinking...',
         addCardTermsOfService: 'Expensify Terms of Service',
         perPerson: 'per person',
+        reservationNightsWithNightlyRate: ({count, nightlyRate}: {count: number; nightlyRate: string}) => ${count}    per night,
         phone: 'Phone',
         phoneNumber: 'Phone number',
         phoneNumberPlaceholder: '(xxx) xxx-xxxx',
