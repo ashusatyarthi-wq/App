@@ -4009,3 +4009,21 @@ export {
 };
 
 export type {ManuallyEnteredScanFields};
+
+/**
+ * Determines whether a company card expense's reimbursable toggle can be viewed/modified
+ * based on the feed's forceReimbursable setting stamped on the transaction.
+ */
+function canModifyCardExpenseReimbursable(transaction: OnyxEntry<Transaction>): boolean {
+    if (isExpensifyCardTransaction(transaction)) {
+        return false;
+    }
+    if (!isManagedCardTransaction(transaction)) {
+        return false;
+    }
+    const forceReimbursable = transaction?.comment?.forceReimbursable ?? transaction?.forceReimbursable;
+    if (!forceReimbursable || forceReimbursable === 'force_no' || forceReimbursable === 'force_yes') {
+        return false;
+    }
+    return forceReimbursable === 'default_yes' || forceReimbursable === 'default_no' || forceReimbursable === 'none';
+}
