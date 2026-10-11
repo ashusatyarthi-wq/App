@@ -284,7 +284,9 @@ function updateSplitTransactions({
 
     const splitExpenses = transactionData?.splitExpenses ?? [];
 
-    const allChildTransactions = getChildTransactions(allTransactionsList, originalTransactionID);
+    const allChildTransactions = getChildTransactions(allTransactionsList, originalTransactionID).filter(
+        (child) => child.reportID === expenseReport?.reportID,
+    );
     const processedChildTransactionIDs: string[] = [];
 
     const splitExpensesTotal = transactionData?.splitExpensesTotal ?? 0;
@@ -2023,7 +2025,11 @@ function updateSplitTransactions({
         const splitApiParams = {} as Record<string, string | number | boolean>;
         for (const [i, split] of splits.entries()) {
             for (const [key, value] of Object.entries(split)) {
-                splitApiParams[`splits[${i}][${key}]`] = value !== null && typeof value === 'object' ? JSON.stringify(value) : value;
+                if (key === 'comment') {
+                    splitApiParams[splits[][comment]] = split.comment?.comment ?? '';
+                } else {
+                    splitApiParams[splits[][]] = value !== null && typeof value === 'object' ? JSON.stringify(value) : value;
+                }
             }
         }
 
